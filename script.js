@@ -46,18 +46,20 @@ slider.addEventListener('change', function(e) {
     showGameSpeed.innerHTML = e.target.value;
 });
 
+//======================================================
+// LOAD ASSETS
+//======================================================
 const backgroundLayer1 = new Image();
 backgroundLayer1.src = 'assets/sky.png';
 const backgroundLayer2 = new Image();
 backgroundLayer2.src = 'assets/2ndRow.png';
 const backgroundLayer3 = new Image();
 backgroundLayer3.src = 'assets/1stRow.png';
-
 const roadFourLane = new Image();
 roadFourLane.src = 'assets/roadFourLane.png';
-
 const playerImage = new Image();
 playerImage.src = 'assets/GetawayCar-sheet.png'
+
 const spriteWidth = 64;
 const spriteHeight = 32;
 
@@ -154,6 +156,27 @@ class Player {
 
 }
 
+function movePlayer() {
+    if (keyUp) playerY--;
+    if (keyDown) playerY++;
+    if (keyRight) accelerate();
+    if (keyLeft) brake();
+}
+
+function accelerate() {
+    if (keyRight) playerX++;
+}
+
+function brake() {
+    if (velocity > 0) {
+        acceleration = 0;
+        velocity--;
+    }
+} 
+
+//======================================================
+// GAME UPDATE
+//======================================================
 function update() {
     context.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
@@ -177,24 +200,9 @@ function update() {
 
 update();  
 
-function movePlayer() {
-    if (keyUp) playerY--;
-    if (keyDown) playerY++;
-    if (keyRight) accelerate();
-    if (keyLeft) brake();
-}
-
-function accelerate() {
-    if (keyRight) playerX++;
-}
-
-function brake() {
-    if (velocity > 0) {
-        acceleration = 0;
-        velocity--;
-    }
-} 
-
+//======================================================
+// CONTROLS
+//======================================================
 document.onkeydown = function(e) {
     if (e.key == "ArrowRight") {
         keyRight = true;
